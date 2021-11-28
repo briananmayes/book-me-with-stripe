@@ -1,9 +1,9 @@
-/.idea/
+.idea/
 
-/byprieta/node_modules/
+byprieta/node_modules/
 
-/byprieta/src/environments/
+byprieta/src/environments/
 
-/servers/.env 
+servers/.env 
 
-/servers/node_modules/
+servers/node_modules/
