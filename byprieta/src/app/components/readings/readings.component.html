@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+  <div class="bg-light intro-text">
+  <p>Thank you for your interest in booking a reading with me.</p>
+  <p>Currently, I am offering tarot, oracle and natal chart readings. I will not conduct any readings regarding health, death or yes/no. If you have any health concerns, please consult your doctor.</p>
+  <p>As a reader, my goal is to bring you closer to your truth about what is happening right now. I want to work with you to find an answer or a solution, not to predict your future. 
+    I invite you to have an open-heart and an open-mind because these cards nor these stars lie. I specialize in matters relating to spirituality, love and relationships, and self-help/growth, but these are not my limitations. 
+    If you are unsure about the type of reading to select, but you are sure you want to work with me, email me at bee@healingbyprieta.com</p>
+  <p>If you have never had a tarot reading before, the best questions are open-ended
+    beginning with 'how' and 'why.' Having a question or specific concern is not required. To learn more about each type of reading as well as how to book, please see below.</p>
+    <p class="refunds"><strong>There will be NO refunds unless I deem absolutely neccessary.</strong></p>
+  </div>
+  <!-- 
+-->
+
+
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <div class="row">
+
+        <!-- loop over prodcuts from Stripe -->
+
+        <div *ngFor="let tempProduct of products" class="col-md-3">
+          <div>
+            <a routerLink="">
+              <img src="{{ tempProduct.imageUrl }}" class="img-responsive" />
+            </a>
+            <a routerLink="/products/{{ tempProduct.id }}">
+            <h1>{{ tempProduct.name }}</h1>
+            </a>
+            <h5>{{ tempProduct.description }}</h5>
+            <div class="price">{{ tempProduct.price / 100 | currency: 'USD' }}</div>
+            <button class="btn btn-primary btn-sm" routerLink="/book/{{tempProduct.id}}">Book</button>
+              <!-- modal window 
+              <div class="modal fade" id="booking" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Book a reading</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <app-bookings [products]="products"></app-bookings>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" (click)="closeModal()" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" (click)="saveBooking()" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                    </div>
+                  -->
+                  </div>
+                </div>
+              </div>
+   
+        </div>
+        </div>
+      </div>
+
+  <p class="text-center">&copy; by prieta.</p>

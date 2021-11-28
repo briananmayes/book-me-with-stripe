@@ -1,0 +1,17 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~open-iconic/font/css/open-iconic-bootstrap.css';
+
+body {
+    background-image: linear-gradient(to bottom right, pink, $indigo-300);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    }
+
+    img {
+        max-width: 100%;
+    }
