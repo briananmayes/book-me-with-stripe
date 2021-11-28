@@ -1,3 +1,7 @@
 /byprieta/node_modules/
 
 /byprieta/src/enviornments/
+
+/servers/.env 
+
+/servers/node_modules/
