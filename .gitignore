@@ -1,6 +1,8 @@
+/.idea/
+
 /byprieta/node_modules/
 
-/byprieta/src/enviornments/
+/byprieta/src/environments/
 
 /servers/.env 
 
