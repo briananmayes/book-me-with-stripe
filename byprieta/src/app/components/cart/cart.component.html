@@ -1,2 +1,2 @@
-<button type="button" routerLink="/view-cart" class="btn btn-primary">{{ totalQuantity }}</button>
-<button type="button" routerLink="/view-cart" class="btn btn-dark" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Bottom popover"><i class="fa fa-shopping-cart"></i></button>
+<!-- <button type="button" routerLink="/view-cart" class="btn btn-primary">{{ totalQuantity }}</button> -->
+<button type="button" routerLink="/view-cart" class="btn btn-dark position-relative"><i class="fa fa-shopping-cart"></i> <span class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-dark">{{ totalQuantity }}</span></button>

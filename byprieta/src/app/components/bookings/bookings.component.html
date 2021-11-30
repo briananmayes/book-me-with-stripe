@@ -7,9 +7,9 @@
             <p>{{ product.description }}</p>
             <h5>{{ product.price / 100 | currency: 'USD' }}</h5>
             </div>
-            <div class="col-md-4">
+            <div class="cart-details col-md-4">
             <label for="query">What's your question?</label>
-            <input type="text" id="query" ([ngModel])="query" class="form-control bg-light">
+            <input type="text" id="query" ([ngModel])="query" class="form-control bg-light" required>
             <br>
 <dl-date-time-picker
 startView="day"
@@ -27,5 +27,4 @@ hourStep="2"
 </div>
 </div>
 </div>
-
- 
+<app-footer></app-footer>

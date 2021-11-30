@@ -1,5 +1,6 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~open-iconic/font/css/open-iconic-bootstrap.css';
 
@@ -57,9 +58,18 @@ a{
     color: pink;
     text-decoration: none;
 }
-.cart-details tr, td{
-    border: 1px black solid;
+
+.cart-details {
+    background-color: whitesmoke;
+    border-radius: 25px;
+    margin: 2px 5px 2px 5px;
+    text-align: center;
 }
+
+table {
+    border-bottom: none;
+}
+
 
 /*
  * ------------------------
@@ -90,6 +100,10 @@ $navbar-dark-color: $primary;
  * Buttons 
  * -------
  */
+
+ button {
+     margin-bottom: 5px;
+ }
 
 .btn-primary {
     background-color: $primary;

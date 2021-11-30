@@ -18,6 +18,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { BookingsComponent } from './components/bookings/bookings.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { environment } from 'src/environments/environment';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { environment } from 'src/environments/environment';
     CartComponent,
     BookingsComponent,
     CartDetailsComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
