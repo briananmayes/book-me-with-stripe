@@ -17,7 +17,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { CartComponent } from './components/cart/cart.component';
 import { BookingsComponent } from './components/bookings/bookings.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
