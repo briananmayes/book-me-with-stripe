@@ -4,6 +4,8 @@ import { PaymentIntent, StripeCardElementOptions, StripeElementsOptions } from '
 import { StripeCardNumberComponent, StripeService } from 'ngx-stripe';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { CartItem } from 'src/app/common/cart-item';
+import { CartService } from 'src/app/services/cart.service';
 import { CheckoutService } from 'src/app/services/checkout.service';
 
 @Component({
@@ -12,6 +14,9 @@ import { CheckoutService } from 'src/app/services/checkout.service';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
+  totalPrice: number;
+  cartItems: CartItem [];
+
   @ViewChild(StripeCardNumberComponent) card: StripeCardNumberComponent;
 
   cardOptions: StripeCardElementOptions = {
@@ -30,32 +35,41 @@ export class CheckoutComponent implements OnInit {
   };
 
   elementsOptions: StripeElementsOptions = {
-    locale: 'es',
+    locale: 'en',
   };
 
-  stripeTest: FormGroup;
+  checkoutForm: FormGroup;
 
   constructor(private fb: FormBuilder, 
               private stripeService: StripeService,
-              private checkoutService: CheckoutService) { }
+              private checkoutService: CheckoutService,
+              private cartService: CartService) { }
 
   ngOnInit() {
-    this.stripeTest = this.fb.group({
-      name: ['What is this', [Validators.required]],
-      amount: [1001, [Validators.required, Validators.pattern(/\d+/)]],
-    });
+    this.cartService.totalPrice.subscribe(
+      data => this.totalPrice = data
+    );
+
+    this.cartItems = this.cartService.cartItems;
+
+    this.checkoutForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+    })
   }
 
+  //method from Ngx-Stripe example
   pay(): void {
-    if (this.stripeTest.valid) {
-      this.checkoutService.createPaymentIntent(this.stripeTest.get('amount').value)
+      this.checkoutService.createPaymentIntent(this.totalPrice, this.checkoutForm.get('email').value)
       .pipe(
         switchMap((pi) => 
         this.stripeService.confirmCardPayment(pi.client_secret, {
           payment_method: {
             card: this.card.element,
             billing_details: {
-              name: this.stripeTest.get('name').value,
+              name: this.checkoutForm.get('firstName').value + ' ' + this.checkoutForm.get('lastName').value,
+              email: this.checkoutForm.get('email').value
             },
           },
         })
@@ -72,9 +86,6 @@ export class CheckoutComponent implements OnInit {
           }
         }
       });
-    } else {
-      console.log(this.stripeTest);
-    }
       }
 
 }

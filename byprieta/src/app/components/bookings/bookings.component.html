@@ -1,25 +1,33 @@
 <app-navbar></app-navbar>
 <div class="main-content">
     <div class="container-fluid">
+        <div class="row">
         <div class="col-md-5">
             <h1>{{ product.name }}</h1>
-            <img src="/{{ product.imageUrl }}" alt="Cover photo for product" />
+            <img src="/{{ product.imageUrl }}" alt="Cover photo for product" class="booking" />
             <p>{{ product.description }}</p>
             <h5>{{ product.price / 100 | currency: 'USD' }}</h5>
+            </div>
+            <div class="col-md-4">
             <label for="query">What's your question?</label>
-            <input type="text" id="query" ([ngModel])="query">
+            <input type="text" id="query" ([ngModel])="query" class="form-control bg-light">
+            <br>
 <dl-date-time-picker
 startView="day"
 maxView="year"
 minView="minute"
 minuteStep="30"
+hourStep="2"
 [(ngModel)]="selectedDate"
+[selectFilter]="datePickerFilter"
 >
 </dl-date-time-picker>
 <br>
 <p>{{ selectedDate | date: 'long' }}</p>
-<button (click)="addToCart()" class="btn-primary">Confirm</button>
+<button type="button" (click)="addToCart(product)" class="btn btn-primary">Confirm</button>
 </div>
 </div>
 </div>
+</div>
+
  

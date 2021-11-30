@@ -15,10 +15,10 @@ export class CheckoutService {
 
   constructor(private httpClient: HttpClient) {}
 
-  createPaymentIntent(amount: number): Observable<PaymentIntent> {
+  createPaymentIntent(amount: number, receiptEmail: string): Observable<PaymentIntent> {
     return this.httpClient.post<PaymentIntent>(
       `${this.baseUrl}create-payment-intent`,
-      { amount }
+      { amount, receiptEmail }
     );
   }
 }
