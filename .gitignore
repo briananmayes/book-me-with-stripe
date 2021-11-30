@@ -7,3 +7,5 @@ byprieta/src/environments/
 servers/.env 
 
 servers/node_modules/
+
+.env
