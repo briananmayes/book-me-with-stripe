@@ -21,4 +21,12 @@ export class CheckoutService {
       { amount, receiptEmail }
     );
   }
+
+  getOrderId(): Observable<GetResponseString> {
+    return this.httpClient.get<GetResponseString>(`${this.baseUrl}orderId`)
+  }
+}
+
+interface GetResponseString {
+  id: string;
 }

@@ -1,24 +1,32 @@
 <app-navbar></app-navbar>
 <div class="main-content">
     <div class="container-fluid col-5">
-        <div *ngIf="cartItems.length > 0">
-        <table class="cart-details">
+        <div *ngIf="cartItems.length > 0" class="cart-details">
+            <h1>Cart details</h1>
+            <div class="table-responsive">
+        <table class="table">
+            <thead>
             <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
+                <th scope="col">Item</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
             </tr>
+            </thead>
+            <tbody>
             <tr *ngFor="let item of cartItems">
                 <td>{{ item.name }}<br> <img src="{{ item.image }}" alt="product image" class="booking"/> </td>
                 <td>{{ item.price / 100 | currency: 'USD'}}</td>
                 <td>{{ item.quantity }}</td>
             </tr>
+            </tbody>
         </table>
             <h5>Total Quantity: {{ totalQuantity }}</h5>
                 <h5>Total Price: {{ totalPrice / 100 | currency: 'USD'}}</h5>
                 <br>
                 <button class="btn btn-primary" routerLink="/checkout">Checkout</button>
         </div>
+        </div>
         <div *ngIf="cartItems.length == 0">Cart is empty!</div>
     </div>
 </div>
+<app-footer></app-footer>

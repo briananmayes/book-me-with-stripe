@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
 <div class="main content">
+  <div *ngIf="!orderPlaced">
   <div class="row">
   <div class="container-fluid col-md-5">
 <form [formGroup]="checkoutForm">
@@ -27,9 +28,11 @@
   PAY
 </button>
 </div>
-<div class="container-fluid col-md-3">
+<div class="container-fluid col-md-3 cart">
   <div *ngIf="cartItems.length > 0">
-    <table class="cart-details">
+    <div class="cart-details">
+    <h3>Cart</h3>
+    <table class="table">
       <tr>
         <th>Item</th>
         <th>Price</th>
@@ -41,7 +44,18 @@
         <td>{{ item.quantity }}</td>
     </tr>
     </table>
+    </div>
   </div>
 </div>
 </div>
 </div>
+<div *ngIf="orderPlaced" class="container-fluid col-7">
+  <div class="alert alert-success" role="alert">
+    <h4 class="alert-heading"><i class="fas fa-check-circle"></i>Thank you!</h4>
+    <p>Your order has been placed. Please wait for a confirmation email!</p>
+    <hr>
+    <p class="mb-0">Order #: {{ orderId }} </p>
+  </div>
+</div>
+</div>
+<app-footer></app-footer>

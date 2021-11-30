@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-require("dotenv").config()
+require("dotenv").config({ path: require('find-config')('.env') })
 const stripeKey = process.env.STRIPE_SECRET_KEY
 const stripe = require('stripe')(stripeKey)
+const nanoid = require('nanoid')
 
 
 // Allow any method from any host and log requests
@@ -208,6 +209,14 @@ app.post("/create-payment-intent", async(req, res) => {
         clientSecret,
     });*/
 });
+
+//create a random order number
+app.get("/orderId", (req, res) => {
+    nanoid.customAlphabet('1234567890abcdefghijklmnopqrstuz', 6);
+    res.send({
+        id: nanoid.nanoid()
+    });
+})
 
 
 

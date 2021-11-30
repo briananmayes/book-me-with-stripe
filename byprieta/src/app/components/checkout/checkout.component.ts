@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaymentIntent, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
-import { StripeCardNumberComponent, StripeService } from 'ngx-stripe';
+import { StripeCardComponent, StripeService } from 'ngx-stripe';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CartItem } from 'src/app/common/cart-item';
@@ -16,8 +16,10 @@ import { CheckoutService } from 'src/app/services/checkout.service';
 export class CheckoutComponent implements OnInit {
   totalPrice: number;
   cartItems: CartItem [];
+  orderPlaced: boolean = false;
+  orderId: string;
 
-  @ViewChild(StripeCardNumberComponent) card: StripeCardNumberComponent;
+  @ViewChild(StripeCardComponent) card: StripeCardComponent;
 
   cardOptions: StripeCardElementOptions = {
     style: {
@@ -49,6 +51,8 @@ export class CheckoutComponent implements OnInit {
     this.cartService.totalPrice.subscribe(
       data => this.totalPrice = data
     );
+
+    this.checkoutService.getOrderId().subscribe(this.processResult());
 
     this.cartItems = this.cartService.cartItems;
 
@@ -83,9 +87,25 @@ export class CheckoutComponent implements OnInit {
           // The payment has been processed!
           if (result.paymentIntent.status === 'succeeded') {
             // Show a success message to your customer
+            console.log(this.orderId)
+            this.orderPlaced = true;
+            console.log("Success!");
+            this.emptyCart();
           }
         }
       });
       }
+
+      processResult() {
+        return data => {
+          this.orderId = data.id
+      }
+    }
+
+    emptyCart() {
+    this.cartService.cartItems = [];
+    this.cartService.totalPrice.next(0);
+    this.cartService.totalQuantity.next(0);
+    }
 
 }
