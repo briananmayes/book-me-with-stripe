@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-require("dotenv").config()
+require("dotenv").config({path: require('find-config')('.env')})
 const stripeKey = process.env.STRIPE_SECRET_KEY
 const stripe = require('stripe')(stripeKey)
 
@@ -211,6 +211,6 @@ app.post("/create-payment-intent", async(req, res) => {
 
 
 
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
 console.log('Server started')
 })
