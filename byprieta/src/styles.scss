@@ -92,6 +92,9 @@ $navbar-dark-color: $primary;
  .nav-link, .navbar-brand{
      color: $primary;
  }
+ .nav-link:hover{
+     color: pink;
+ }
 
 
 
