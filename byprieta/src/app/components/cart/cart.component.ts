@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { $ } from 'protractor';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -8,10 +9,15 @@ import { $ } from 'protractor';
 })
 export class CartComponent implements OnInit {
 
-  constructor() { }
+  totalQuantity: number;
+
+  constructor(private cartService: CartService) { }
 
   ngOnInit() {
     //$(`[data-toggle="popover"]`).popover();
+    this.cartService.totalQuantity.subscribe(
+      data => this.totalQuantity = data
+    )
   }
 
 }

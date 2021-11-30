@@ -16,7 +16,14 @@ export class CartDetailsComponent implements OnInit {
   constructor(private cartService: CartService) { }
 
   ngOnInit() {
+    this.loadCart();
+
+  this.cartService.computeCartTotals();
+
+   }
+  loadCart() {
     this.cartItems = this.cartService.cartItems;
+    console.log("cart items: ", this.cartItems);
 
    this.cartService.totalPrice.subscribe(
       data => this.totalPrice = data
@@ -25,9 +32,6 @@ export class CartDetailsComponent implements OnInit {
   this.cartService.totalQuantity.subscribe(
     data => this.totalQuantity = data
   );
-
-  this.cartService.computeCartTotals();
-
-   }
+  }
 
 }

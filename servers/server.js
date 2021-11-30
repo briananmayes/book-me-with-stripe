@@ -185,16 +185,13 @@ app.route('/productList').get(async (req, res) => {
 /*
  * Creating a PaymentIntent
  */
-const calculateOrderAmount = (items) => {
-    return 0;
-}
-
 app.post("/create-payment-intent", async(req, res) => {
 
     const paymentIntent = await stripe.paymentIntents.create({
         amount: parseInt(req.body.amount),
         currency: "usd",
         payment_method_types: ["card"],
+        receipt_email: req.body.receiptEmail
     },
     function (err, paymentIntent) {
         if (err) {
