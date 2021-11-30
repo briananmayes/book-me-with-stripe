@@ -58,6 +58,9 @@ a{
     color: pink;
     text-decoration: none;
 }
+a:hover{
+    color: $primary;
+}
 
 .cart-details {
     background-color: whitesmoke;
@@ -91,6 +94,9 @@ $navbar-dark-color: $primary;
  }
  .nav-link, .navbar-brand{
      color: $primary;
+ }
+ .nav-link:hover {
+     color: pink;
  }
 
 
