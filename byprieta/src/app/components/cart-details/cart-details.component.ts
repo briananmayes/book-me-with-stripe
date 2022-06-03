@@ -34,4 +34,16 @@ export class CartDetailsComponent implements OnInit {
   );
   }
 
+  increment() {
+    this.cartItems[0].quantity += 1;
+    this.totalPrice += this.cartItems[0].price;
+    this.totalQuantity += 1;
+  }
+
+  decrement() {
+    this.cartItems[0].quantity -= 1;
+    this.totalPrice -= this.cartItems[0].price;
+    this.totalQuantity -= 1;
+  }
+
 }

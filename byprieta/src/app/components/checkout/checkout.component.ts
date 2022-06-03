@@ -5,8 +5,10 @@ import { StripeCardComponent, StripeService } from 'ngx-stripe';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CartItem } from 'src/app/common/cart-item';
+import { Customer } from 'src/app/common/customer';
 import { CartService } from 'src/app/services/cart.service';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { resourceLimits } from 'worker_threads';
 
 @Component({
   selector: 'app-checkout',
@@ -18,6 +20,7 @@ export class CheckoutComponent implements OnInit {
   cartItems: CartItem [];
   orderPlaced: boolean = false;
   orderId: string;
+  customer: Customer = new Customer();
 
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
 
@@ -47,6 +50,8 @@ export class CheckoutComponent implements OnInit {
               private checkoutService: CheckoutService,
               private cartService: CartService) { }
 
+  
+
   ngOnInit() {
     this.cartService.totalPrice.subscribe(
       data => this.totalPrice = data
@@ -63,8 +68,20 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
+  firstName() { return this.checkoutForm.get('firstName').value }
+  lastName() { return this.checkoutForm.get('lastName').value }
+  email() { return this.checkoutForm.get('email').value }
+
+  
+
   //method from Ngx-Stripe example
   pay(): void {
+    this.customer.fname = this.firstName();
+    this.customer.lname = this.lastName();
+    this.customer.email = this.email();
+    this.checkoutService.saveCustomer(this.checkoutForm.get('firstName').value, this.lastName(), this.email()).subscribe((result) => {
+      console.log("customer id is.. ", result);
+    });
       this.checkoutService.createPaymentIntent(this.totalPrice, this.checkoutForm.get('email').value)
       .pipe(
         switchMap((pi) => 
@@ -72,8 +89,8 @@ export class CheckoutComponent implements OnInit {
           payment_method: {
             card: this.card.element,
             billing_details: {
-              name: this.checkoutForm.get('firstName').value + ' ' + this.checkoutForm.get('lastName').value,
-              email: this.checkoutForm.get('email').value
+              name: this.firstName() + ' ' + this.lastName(),
+              email: this.email()
             },
           },
         })
@@ -89,6 +106,7 @@ export class CheckoutComponent implements OnInit {
             // Show a success message to your customer
             console.log(this.orderId)
             this.orderPlaced = true;
+            this.checkoutService.saveBooking(this.email(), this.orderId, this.cartItems[0].id, this.cartItems[0].bookingDate).subscribe();
             console.log("Success!");
             this.emptyCart();
           }

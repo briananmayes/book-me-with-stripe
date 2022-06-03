@@ -5,11 +5,12 @@ require("dotenv").config({ path: require('find-config')('.env') })
 const stripeKey = process.env.STRIPE_SECRET_KEY
 const stripe = require('stripe')(stripeKey)
 const nanoid = require('nanoid')
+const {MongoClient} = require('mongodb');
 
 
 // Allow any method from any host and log requests
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
     if('OPTIONS' === req.method) {
@@ -89,6 +90,7 @@ const updateProduct = async () => {
  */ 
 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 /*
@@ -187,7 +189,6 @@ app.route('/productList').get(async (req, res) => {
  * Creating a PaymentIntent
  */
 app.post("/create-payment-intent", async(req, res) => {
-
     const paymentIntent = await stripe.paymentIntents.create({
         amount: parseInt(req.body.amount),
         currency: "usd",
@@ -218,6 +219,82 @@ app.get("/orderId", (req, res) => {
     });
 })
 
+
+/******************************
+ ***** MondoDB Connection *****
+ *****************************/
+const uri = process.env.MONGODB;
+const client = new MongoClient(uri);
+
+async function main() {
+try {
+    await client.connect();
+    console.log("connected to database");
+
+} catch(e) {
+    console.error(e)
+}
+}
+
+main().catch(console.error);
+
+/**************************
+ *** Database Functions ***
+ **************************/
+
+ async function saveCustomer(client, newCustomer) {
+     const result = await client.db("Orders").collection("Customers").insertOne(newCustomer);
+     console.log(`New customer saved with the following id: ${result.insertedId}`);
+ }
+
+ async function saveBooking(client, newBooking) {
+     const result = await client.db("Orders").collection("Bookings").insertOne(newBooking);
+     console.log(`New booking saved with the following id: ${result.insertedId}`);
+ }
+
+ async function customerExists(client, customer) {
+    const result = await client.db("Orders").collection("Customers").findOne({ email: customer.email})
+ }
+
+// const customer = require('./models/customer')
+
+ app.post('/save-customer', async(req, res) => {
+    // console.log('hitting the backend server')
+    // console.log('wha† are wegetting from client: ', req.body);
+    const result = await client.db("Orders").collection("Customers").findOne({ email: req.body.email});
+   // console.log(result);
+    if (result.email == req.body.email) {
+        console.log("Customer already exists")
+    }
+    else {
+     await saveCustomer(client, {
+        first_name: req.body.fname,
+        last_name: req.body.lname,
+        email: req.body.email
+    }
+        )
+}
+ })
+
+ app.post('/save-booking', async (req, res) => {
+    const result = await client.db("Orders").collection("Customers").findOne({ email: req.body.email});
+    console.log(result);
+     await saveBooking(client, {
+         customer: result.email,
+         order_id: req.body.orderId,
+         prod_id: req.body.product,
+         date: req.body.bookingDate
+     })
+ })
+
+ app.get('/db/:name', (req, res) => {
+    client.db("Orders").collection("Customers").findOne(
+        { first_name: req.params.name },
+        function(err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
+ });
 
 
 app.listen(process.env.PORT || 8000, () => {
